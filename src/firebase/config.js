@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./config-key";
 import { getStorage } from "firebase/storage";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, serverTimestamp } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -13,5 +13,6 @@ const app = initializeApp(firebaseConfig);
 
 const projectStorage = getStorage(app);
 const projectFirestore = getFirestore(app);
+const timestamp = serverTimestamp;
 
-export { projectStorage, projectFirestore };
+export { projectStorage, projectFirestore, timestamp };

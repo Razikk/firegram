@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { projectStorage } from "../firebase/config";
+import {
+  projectStorage,
+  projectFirestore,
+  timestamp,
+} from "../firebase/config";
+import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 export default function useStorage(file) {
@@ -24,7 +29,12 @@ export default function useStorage(file) {
         setError(err);
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+        getDownloadURL(uploadTask.snapshot.ref).then(async (url) => {
+          const createdAt = timestamp();
+          await addDoc(collection(projectFirestore, "images"), {
+            url,
+            createdAt,
+          });
           setUrl(url);
         });
       }
